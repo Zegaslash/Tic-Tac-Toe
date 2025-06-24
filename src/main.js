@@ -416,7 +416,7 @@ function createConfetti() {
 // AI move selection
 function getAIMove() {
     if (aiDifficulty === 'easy') {
-        return getRandomMove();
+        return Math.random() < 0.3 ? getRandomMove() : getSmartMove();
     } else if (aiDifficulty === 'medium') {
         return Math.random() < 0.7 ? getSmartMove() : getRandomMove();
     } else {
@@ -445,16 +445,22 @@ function getSmartMove() {
     // Second, block opponent's win
     const blockingMove = findWinningMove('X');
     if (blockingMove !== null) return blockingMove;
-    
+
     // Third, take center if available
     if (gameBoard[4] === '') return 4;
-    
+
     // Fourth, take corners
     const corners = [0, 2, 6, 8];
     const availableCorners = corners.filter(index => gameBoard[index] === '');
     if (availableCorners.length > 0) {
         return availableCorners[Math.floor(Math.random() * availableCorners.length)];
     }
+
+    // Fifth, Take Opposite Corner if available
+    if (gameBoard[0]=== 'o') return 6;
+    if (gameBoard[6]=== 'o') return 0;
+    if (gameBoard[2]=== 'o') return 8;
+    if (gameBoard[8]=== 'o') return 2;
     
     // Finally, take any available move
     return getRandomMove();
@@ -517,9 +523,9 @@ function saveGameHistory(move) {
         timestamp: new Date().toISOString()
     });
     
-    // Keep only last 50 games
-    if (history.length > 50) {
-        history = history.slice(-50);
+    // Keep only last 10 games
+    if (history.length > 10) {
+        history = history.slice(-10);
     }
     
     localStorage.setItem('ticTacToeHistory', JSON.stringify(history));
