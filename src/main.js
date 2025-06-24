@@ -446,22 +446,30 @@ function getSmartMove() {
     const blockingMove = findWinningMove('X');
     if (blockingMove !== null) return blockingMove;
 
-    // Third, take center if available
-    if (gameBoard[4] === '') return 4;
+    // Third, Stop Trap
+    if (gameBoard[0] === 'X' && gameBoard[8] === 'X') return 5;
+    if (gameBoard[2] === 'X' && gameBoard[6] === 'X') return 3;
+    if (gameBoard[5] === 'X' && gameBoard[7] === 'X') return 8;
+    if (gameBoard[1] === 'X' && gameBoard[3] === 'X') return 0;
+    if (gameBoard[1] === 'X' && gameBoard[5] === 'X') return 2;
+    if (gameBoard[7] === 'X' && gameBoard[3] === 'X') return 6;
+    if (gameBoard[8] === 'X' && gameBoard[1] === 'X') return 2;
+    if (gameBoard[6] === 'X' && gameBoard[1] === 'X') return 0;
+    if (gameBoard[0] === 'X' && gameBoard[7] === 'X') return 6;
+    if (gameBoard[2] === 'X' && gameBoard[7] === 'X') return 8;
 
-    // Fourth, take corners
-    const corners = [0, 2, 6, 8];
-    const availableCorners = corners.filter(index => gameBoard[index] === '');
-    if (availableCorners.length > 0) {
-        return availableCorners[Math.floor(Math.random() * availableCorners.length)];
-    }
+    // Fourth, take center if available
+    if (gameBoard[0] === 'X' && gameBoard[4] === '') return 4;
+    if (gameBoard[2] === 'X' && gameBoard[4] === '') return 4;
+    if (gameBoard[6] === 'X' && gameBoard[4] === '') return 4;
+    if (gameBoard[8] === 'X' && gameBoard[4] === '') return 4;
 
-    // Fifth, Take Opposite Corner if available
-    if (gameBoard[0]=== 'o') return 6;
-    if (gameBoard[6]=== 'o') return 0;
-    if (gameBoard[2]=== 'o') return 8;
-    if (gameBoard[8]=== 'o') return 2;
-    
+    // Fifth, Respond to Side
+    if (gameBoard[1] === 'X' && gameBoard[4] === '') return 7;
+    if (gameBoard[3] === 'X' && gameBoard[4] === '') return 5;
+    if (gameBoard[5] === 'X' && gameBoard[4] === '') return 3;
+    if (gameBoard[7] === 'X' && gameBoard[4] === '') return 1;
+
     // Finally, take any available move
     return getRandomMove();
 }
