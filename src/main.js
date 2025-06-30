@@ -366,7 +366,7 @@ function createConfetti() {
 // AI move selection
 function getAIMove() {
     if (aiDifficulty === 'easy') {
-        return Math.random() < 0.3 ? getRandomMove() : getSmartMove();
+        return Math.random() < 0.7 ? getRandomMove() : getSmartMove();
     } else if (aiDifficulty === 'medium') {
         return Math.random() < 0.7 ? getSmartMove() : getRandomMove();
     } else {
